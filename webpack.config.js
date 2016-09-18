@@ -75,7 +75,6 @@ if (ENV_DEVELOPMENT || ENV_PRODUCTION) {
 
   config.plugins.push(
     new HtmlWebpackPlugin({
-      chunkSortMode: 'dependency',
       filename: 'index.html',
       hash: false,
       inject: 'body',
@@ -137,8 +136,6 @@ if (ENV_DEVELOPMENT) {
 if (ENV_PRODUCTION) {
   config.devtool = 'source-map';
 
-  config.entry.vendor = './src/vendor.js';
-
   config.output.filename = '[name].[chunkhash].js';
 
   config.module = {
@@ -151,10 +148,6 @@ if (ENV_PRODUCTION) {
   config.plugins.push(
     new WebpackMd5Hash(),
     new ExtractTextPlugin('styles.[contenthash].css'),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks: Infinity
-    }),
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.UglifyJsPlugin({
       mangle: true,
