@@ -1,13 +1,18 @@
-const autoprefixer = require('autoprefixer');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
-const webpack = require('webpack');
+
+const autoprefixer = require('autoprefixer');
+const DefinePlugin = require('webpack/lib/DefinePlugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HotModuleReplacementPlugin = require('webpack/lib/HotModuleReplacementPlugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
+const ProgressPlugin = require('webpack/lib/ProgressPlugin');
+const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
 
 
 //=========================================================
-//  ENVIRONMENT VARS
+//  VARS
 //---------------------------------------------------------
 const NODE_ENV = process.env.NODE_ENV;
 
@@ -15,8 +20,8 @@ const ENV_DEVELOPMENT = NODE_ENV === 'development';
 const ENV_PRODUCTION = NODE_ENV === 'production';
 const ENV_TEST = NODE_ENV === 'test';
 
-const HOST = process.env.HOST || 'localhost';
-const PORT = process.env.PORT || 3000;
+const HOST = '0.0.0.0';
+const PORT = 3000;
 
 
 //=========================================================
@@ -25,31 +30,38 @@ const PORT = process.env.PORT || 3000;
 const loaders = {
   js: {test: /\.js$/, exclude: /node_modules/, loader: 'babel'},
   json: {test: /\.json$/, loader: 'json'},
-  scss: {test: /\.scss$/, loader: 'style!css!postcss!sass'}
+  scss: {test: /\.scss$/, loader: 'style!css!postcss!sass'},
+  scssExtract: {test: /\.scss$/, loader: ExtractTextPlugin.extract('css?-autoprefixer!postcss!sass')}
 };
 
 
 //=========================================================
 //  CONFIG
 //---------------------------------------------------------
-const config = {};
-module.exports = config;
-
+const config = module.exports = {};
 
 config.resolve = {
-  extensions: ['', '.js'],
-  modulesDirectories: ['node_modules'],
-  root: path.resolve('.')
+  extensions: ['.js', '.json'],
+  modules: [
+    path.resolve('./src'),
+    'node_modules'
+  ]
+};
+
+config.module = {
+  loaders: [
+    loaders.js
+  ]
 };
 
 config.plugins = [
-  new webpack.DefinePlugin({
+  new DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
   })
 ];
 
 config.postcss = [
-  autoprefixer({ browsers: ['last 3 versions'] })
+  autoprefixer({browsers: ['last 3 versions']})
 ];
 
 config.sassLoader = {
@@ -91,21 +103,15 @@ if (ENV_DEVELOPMENT) {
   config.devtool = 'cheap-module-source-map';
 
   config.entry.main.unshift(
-    `webpack-dev-server/client?http://${HOST}:${PORT}`,
-    'webpack/hot/only-dev-server',
     'react-hot-loader/patch',
-    'babel-polyfill'
+    'webpack/hot/only-dev-server'
   );
 
-  config.module = {
-    loaders: [
-      loaders.js,
-      loaders.scss
-    ]
-  };
+  config.module.loaders.push(loaders.scss);
 
   config.plugins.push(
-    new webpack.HotModuleReplacementPlugin()
+    new HotModuleReplacementPlugin(),
+    new ProgressPlugin()
   );
 
   config.devServer = {
@@ -114,7 +120,6 @@ if (ENV_DEVELOPMENT) {
     host: HOST,
     hot: true,
     port: PORT,
-    publicPath: config.output.publicPath,
     stats: {
       cached: true,
       cachedAssets: true,
@@ -138,19 +143,19 @@ if (ENV_PRODUCTION) {
 
   config.output.filename = '[name].[chunkhash].js';
 
-  config.module = {
-    loaders: [
-      loaders.js,
-      {test: /\.scss$/, loader: ExtractTextPlugin.extract('css?-autoprefixer!postcss!sass')}
-    ]
-  };
+  config.module.loaders.push(loaders.scssExtract);
 
   config.plugins.push(
+    new LoaderOptionsPlugin({
+      debug: false,
+      minimize: true
+    }),
     new WebpackMd5Hash(),
     new ExtractTextPlugin('styles.[contenthash].css'),
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      mangle: true,
+    new UglifyJsPlugin({
+      mangle: {
+        screw_ie8: true  // eslint-disable-line camelcase
+      },
       compress: {
         dead_code: true, // eslint-disable-line camelcase
         screw_ie8: true, // eslint-disable-line camelcase
@@ -168,15 +173,10 @@ if (ENV_PRODUCTION) {
 if (ENV_TEST) {
   config.devtool = 'inline-source-map';
 
-  config.resolve.extensions.push('.json');
-
-  config.module = {
-    loaders: [
-      loaders.js,
-      loaders.json,
-      loaders.scss
-    ]
-  };
+  config.module.loaders.push(
+    loaders.json,
+    loaders.scss
+  );
 
   config.externals = {
     'jsdom': 'window',

@@ -9,7 +9,7 @@ Try the demo at <a href="https://todo-redux-saga.firebaseapp.com" target="_blank
 ## Stack
 
 - React
-- React-Hot-Loader `3.0.0-beta.2`
+- React-Hot-Loader `3.0.0-beta.4`
 - React-Redux
 - React-Router
 - React-Router-Redux
@@ -21,7 +21,8 @@ Try the demo at <a href="https://todo-redux-saga.firebaseapp.com" target="_blank
 - Immutable
 - Reselect
 - SASS
-- Webpack
+- Webpack `2.1.0-beta.22`
+- Webpack Dev Server `2.1.0-beta.4`
 
 
 ## Quick Start

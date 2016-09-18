@@ -1,4 +1,4 @@
-import { isAuthenticated } from 'src/core/auth';
+import { isAuthenticated } from 'core/auth';
 import App from './app';
 import SignInPage from './pages/sign-in';
 import TasksPage from './pages/tasks';

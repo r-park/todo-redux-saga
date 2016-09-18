@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { authActions, getAuth } from 'src/core/auth';
-import Header from '../components/header';
+import { authActions, getAuth } from 'core/auth';
+import Header from 'views/components/header';
 
 
 function App({authenticated, children, signOut}) {

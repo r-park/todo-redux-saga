@@ -1,19 +1,26 @@
 {
   "presets": [
-    "es2015",
+    ["es2015", { "modules": false }],
     "react",
     "stage-0"
   ],
 
   "plugins": [
-    "react-hot-loader/babel"
+    ["transform-runtime", {
+      "polyfill": false,
+      "regenerator": true
+    }]
   ],
 
   "env": {
-    "production": {
+    "development": {
       "plugins": [
-        "transform-react-constant-elements",
-        "transform-react-inline-elements"
+        "react-hot-loader/babel"
+      ]
+    },
+    "production": {
+      "presets": [
+        "react-optimize"
       ]
     }
   }

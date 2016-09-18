@@ -2,7 +2,7 @@
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { eventChannel } from 'redux-saga';
 import { call, cancel, fork, put, take } from 'redux-saga/effects';
-import { authActions } from 'src/core/auth';
+import { authActions } from 'core/auth';
 import { taskActions } from './actions';
 import { taskList } from './task-list';
 

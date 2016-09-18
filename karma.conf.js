@@ -2,9 +2,7 @@ module.exports = config => {
   config.set({
     frameworks: ['jasmine'],
 
-    files: [
-      'karma.entry.js'
-    ],
+    files: ['karma.entry.js'],
 
     preprocessors: {
       'karma.entry.js': ['webpack', 'sourcemap']
