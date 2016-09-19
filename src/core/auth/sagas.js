@@ -1,7 +1,7 @@
 /* eslint-disable no-constant-condition */
 import { browserHistory as history } from 'react-router';
 import { call, fork, put, take } from 'redux-saga/effects';
-import { firebaseAuth } from 'src/core/firebase';
+import { firebaseAuth } from 'core/firebase';
 import { authActions } from './actions';
 
 

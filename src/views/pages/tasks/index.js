@@ -1,10 +1,10 @@
 import { List } from 'immutable';
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { taskActions, getVisibleTasks } from 'src/core/tasks';
-import TaskFilters from '../../components/task-filters';
-import TaskForm from '../../components/task-form';
-import TaskList from '../../components/task-list';
+import { taskActions, getVisibleTasks } from 'core/tasks';
+import TaskFilters from 'views/components/task-filters';
+import TaskForm from 'views/components/task-form';
+import TaskList from 'views/components/task-list';
 
 
 const TasksPage = ({createTask, location, removeTask, tasks, updateTask}) => {

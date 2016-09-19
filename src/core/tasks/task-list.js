@@ -1,4 +1,4 @@
-import { FirebaseList } from 'src/core/firebase';
+import { FirebaseList } from 'core/firebase';
 import { taskActions } from './actions';
 import { Task } from './task';
 

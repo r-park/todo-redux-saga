@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { authActions } from 'src/core/auth';
-import Button from '../../components/button';
+import { authActions } from 'core/auth';
+import Button from 'views/components/button';
 
 
 const SignInPage = ({signInWithGithub, signInWithGoogle, signInWithTwitter}) => {

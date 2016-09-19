@@ -1,3 +1,6 @@
+import firebase from 'firebase';
+
+
 export const authActions = {
   SIGN_IN: 'SIGN_IN',
   SIGN_IN_FAILED: 'SIGN_IN_FAILED',
