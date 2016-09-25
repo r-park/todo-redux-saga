@@ -27,11 +27,10 @@ const PORT = 3000;
 //=========================================================
 //  LOADERS
 //---------------------------------------------------------
-const loaders = {
+const rules = {
   js: {test: /\.js$/, exclude: /node_modules/, loader: 'babel'},
   json: {test: /\.json$/, loader: 'json'},
-  scss: {test: /\.scss$/, loader: 'style!css!postcss!sass'},
-  scssExtract: {test: /\.scss$/, loader: ExtractTextPlugin.extract('css?-autoprefixer!postcss!sass')}
+  scss: {test: /\.scss$/, loader: 'style!css!postcss!sass'}
 };
 
 
@@ -49,26 +48,30 @@ config.resolve = {
 };
 
 config.module = {
-  loaders: [
-    loaders.js
+  rules: [
+    rules.js
   ]
 };
 
 config.plugins = [
   new DefinePlugin({
     'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
+  }),
+  new LoaderOptionsPlugin({
+    debug: false,
+    minimize: ENV_PRODUCTION,
+    options: {
+      postcss: [
+        autoprefixer({browsers: ['last 3 versions']})
+      ],
+      sassLoader: {
+        outputStyle: 'compressed',
+        precision: 10,
+        sourceComments: false
+      }
+    }
   })
 ];
-
-config.postcss = [
-  autoprefixer({browsers: ['last 3 versions']})
-];
-
-config.sassLoader = {
-  outputStyle: 'compressed',
-  precision: 10,
-  sourceComments: false
-};
 
 
 //=====================================
@@ -103,11 +106,12 @@ if (ENV_DEVELOPMENT) {
   config.devtool = 'cheap-module-source-map';
 
   config.entry.main.unshift(
+    'babel-polyfill',
     'react-hot-loader/patch',
     'webpack/hot/only-dev-server'
   );
 
-  config.module.loaders.push(loaders.scss);
+  config.module.rules.push(rules.scss);
 
   config.plugins.push(
     new HotModuleReplacementPlugin(),
@@ -139,28 +143,30 @@ if (ENV_DEVELOPMENT) {
 //  PRODUCTION
 //-------------------------------------
 if (ENV_PRODUCTION) {
-  config.devtool = 'source-map';
+  config.devtool = 'hidden-source-map';
+
+  config.entry.main.unshift('babel-polyfill');
 
   config.output.filename = '[name].[chunkhash].js';
 
-  config.module.loaders.push(loaders.scssExtract);
+  config.module.rules.push({
+    test: /\.scss$/,
+    loader: ExtractTextPlugin.extract('css?-autoprefixer!postcss!sass')
+  });
 
   config.plugins.push(
-    new LoaderOptionsPlugin({
-      debug: false,
-      minimize: true
-    }),
     new WebpackMd5Hash(),
     new ExtractTextPlugin('styles.[contenthash].css'),
     new UglifyJsPlugin({
-      mangle: {
-        screw_ie8: true  // eslint-disable-line camelcase
-      },
+      comments: false,
       compress: {
         dead_code: true, // eslint-disable-line camelcase
         screw_ie8: true, // eslint-disable-line camelcase
         unused: true,
         warnings: false
+      },
+      mangle: {
+        screw_ie8: true  // eslint-disable-line camelcase
       }
     })
   );
@@ -173,9 +179,9 @@ if (ENV_PRODUCTION) {
 if (ENV_TEST) {
   config.devtool = 'inline-source-map';
 
-  config.module.loaders.push(
-    loaders.json,
-    loaders.scss
+  config.module.rules.push(
+    rules.json,
+    rules.scss
   );
 
   config.externals = {
