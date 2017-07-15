@@ -1,28 +1,25 @@
 [![CircleCI](https://circleci.com/gh/r-park/todo-redux-saga.svg?style=shield&circle-token=dc7e150ab97aab05db8f8da4b5874488bf8da0c6)](https://circleci.com/gh/r-park/todo-redux-saga)
 
 
-# A simple Todo app example built with React, Redux, Redux-Saga, and Firebase
+# A simple Todo app example built with Create-React-App, Redux, Redux-Saga, and Firebase
 
 Try the demo at <a href="https://todo-redux-saga.firebaseapp.com" target="_blank">todo-redux-saga.firebaseapp.com</a>.
 
 
 ## Stack
 
+- Create-React-App
 - React
-- React-Hot-Loader `3.0.0-beta.4`
 - React-Redux
 - React-Router
 - React-Router-Redux
 - Redux
 - Redux-Saga
 - Redux-Devtools-Extension for Chrome
-- Firebase SDK 3 with OAuth authentication
-- Babel
+- Firebase SDK with OAuth authentication
 - Immutable
 - Reselect
 - SASS
-- Webpack `2.1.0-beta.22`
-- Webpack Dev Server `2.1.0-beta.4`
 
 
 ## Quick Start
@@ -41,7 +38,7 @@ $ npm start
 - Configure the authentication providers for your Firebase project from your Firebase account console
 
 #### Configure this app with your project-specific details:
-```javascript
+```json
 // .firebaserc
 
 {
@@ -50,6 +47,7 @@ $ npm start
   }
 }
 ```
+
 ```javascript
 // src/core/firebase/config.js
 
@@ -80,8 +78,5 @@ $ firebase deploy
 |Script|Description|
 |---|---|
 |`npm start`|Start webpack development server @ `localhost:3000`|
-|`npm run build`|Lint, test, and build the application to `./target`|
-|`npm run lint`|Lint `.js` files|
-|`npm run server`|Start express server @ `localhost:3000` to serve built artifacts from `./target` (must run `npm run build` first)|
-|`npm test`|Run unit tests with Karma and Jasmine|
-|`npm run test:watch`|Run unit tests with Karma and Jasmine; watch for changes to re-run tests|
+|`npm run build`|Build the application to `./build` directory|
+|`npm test`|Test the application; watch for changes and retest|
