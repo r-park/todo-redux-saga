@@ -1,20 +1,8 @@
 @import
-"settings",
-'~minx/src/settings',
-'~minx/src/functions',
-'~minx/src/mixins',
-'~minx/src/reset',
-'~minx/src/elements';
-
-@import
-'grid',
-'button',
-'header',
-'sign-in',
-'task-filters',
-'task-form',
-'task-item',
-'task-list';
+'./shared',
+'minx/src/reset',
+'minx/src/elements',
+'./grid';
 
 
 html {
