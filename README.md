@@ -1,21 +1,19 @@
 [![CircleCI](https://circleci.com/gh/r-park/todo-redux-saga.svg?style=shield&circle-token=dc7e150ab97aab05db8f8da4b5874488bf8da0c6)](https://circleci.com/gh/r-park/todo-redux-saga)
 
 
-# A simple Todo app example built with Create-React-App, Redux, Redux-Saga, and Firebase
+# A simple Todo app example built with [Create React App](https://github.com/facebookincubator/create-react-app), [React Redux](https://github.com/reactjs/react-redux), [Redux Saga](https://github.com/redux-saga/redux-saga), and Firebase
 
 Try the demo at <a href="https://todo-redux-saga.firebaseapp.com" target="_blank">todo-redux-saga.firebaseapp.com</a>.
 
 
 ## Stack
 
-- Create-React-App
-- React
-- React-Redux
-- React-Router
-- React-Router-Redux
-- Redux
-- Redux-Saga
-- Redux-Devtools-Extension for Chrome
+- Create React App
+- React Redux
+- React Router
+- React Router Redux
+- Redux Saga
+- Redux Devtools Extension for Chrome
 - Firebase SDK with OAuth authentication
 - Immutable
 - Reselect
